@@ -6,7 +6,6 @@ sub init()
     m.loadingLabel = m.top.findNode("loadingLabel")
     m.statusLabel = m.top.findNode("statusLabel")
 
-    ' URL de teste padrão
     if m.top.pageUrl = invalid or m.top.pageUrl = ""
         m.top.pageUrl = "https://exemplo.com"
     end if
@@ -20,7 +19,7 @@ sub onPageUrlChange()
     StartTranslation(m.top.pageUrl)
 end sub
 
-sub StartTranslation(pageUrl)
+sub StartTranslation(pageUrl as String)
     if m.loadingLabel <> invalid
         m.loadingLabel.visible = true
     end if
@@ -28,7 +27,6 @@ sub StartTranslation(pageUrl)
     m.task = CreateObject("roSGNode", "TranslateTask")
     m.task.serverUrl = m.serverBase + "?url=" + HttpEncode(pageUrl)
     m.task.ObserveField("content", "OnContentReceived")
-    m.task.ObserveField("error", "OnTaskError")
     m.task.control = "RUN"
 end sub
 
@@ -40,7 +38,7 @@ sub OnContentReceived(event as Object)
     content = event.GetData()
 
     if content = invalid
-        ShowError("Não foi possível carregar a página. Verifique a URL e o servidor.")
+        ShowError("Não foi possível carregar a página.")
         return
     end if
 
@@ -48,18 +46,10 @@ sub OnContentReceived(event as Object)
     if rootNode <> invalid
         ClearContent()
         BuildAndAppendNode(rootNode, m.root)
-        m.top.status = "Página carregada com sucesso."
+        m.top.status = "Página carregada."
     else
-        ShowError("Resposta do servidor inválida.")
+        ShowError("Resposta inválida.")
     end if
-end sub
-
-sub OnTaskError(event as Object)
-    if m.loadingLabel <> invalid
-        m.loadingLabel.visible = false
-    end if
-
-    ShowError("Erro de rede. Pressione Replay para tentar novamente.")
 end sub
 
 sub ClearContent()
@@ -71,7 +61,7 @@ sub ClearContent()
     end if
 end sub
 
-sub ShowError(msg)
+sub ShowError(msg as String)
     if m.statusLabel <> invalid
         m.statusLabel.text = msg
         m.statusLabel.color = "0xFF4444FF"
@@ -79,7 +69,7 @@ sub ShowError(msg)
     m.top.status = msg
 end sub
 
-sub ShowStatus(msg)
+sub ShowStatus(msg as String)
     if m.statusLabel <> invalid
         m.statusLabel.text = msg
         m.statusLabel.color = "0xFFFF00FF"
@@ -87,13 +77,12 @@ sub ShowStatus(msg)
     m.top.status = msg
 end sub
 
-' Escapa a URL de destino pra usar como query param
-function HttpEncode(str)
+function HttpEncode(str as String) as String
     xfer = CreateObject("roUrlTransfer")
     return xfer.Escape(str)
 end function
 
-function onKeyEvent(key, press)
+function onKeyEvent(key as String, press as Boolean) as Boolean
     if not press then return false
 
     if key = "back"
