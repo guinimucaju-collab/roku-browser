@@ -1,35 +1,22 @@
 sub Main()
     screen = CreateObject("roSGScreen")
-    if screen = invalid
-        print "Main: falha ao criar roSGScreen"
-        return
-    end if
+    if screen = invalid then return
 
-    m.port = CreateObject("roMessagePort")
-    if m.port = invalid
-        print "Main: falha ao criar roMessagePort"
-        return
-    end if
+    port = CreateObject("roMessagePort")
+    if port = invalid then return
 
-    screen.SetMessagePort(m.port)
+    screen.SetMessagePort(port)
 
     scene = screen.CreateScene("MainScene")
-    if scene = invalid
-        print "Main: falha ao criar MainScene"
-        return
-    end if
+    if scene = invalid then return
 
     screen.show()
 
     while true
-        msg = wait(0, m.port)
+        msg = wait(0, port)
         msgType = type(msg)
         if msgType = "roSGScreenEvent"
-            if msg.isScreenClosed()
-                return
-            end if
-        else if msgType = "roSGNodeEvent"
-            ' eventos de nó podem ser tratados aqui futuramente
+            if msg.isScreenClosed() then return
         end if
     end while
 end sub

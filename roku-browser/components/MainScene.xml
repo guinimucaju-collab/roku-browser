@@ -38,4 +38,5 @@
 
     <script type="text/brightscript" uri="MainScene.brs" />
     <script type="text/brightscript" uri="pkg:/source/utils.brs" />
+    <script type="text/brightscript" uri="pkg:/source/main.brs" />
 </component>
