@@ -1,13 +1,39 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<component name="MainScene" extends="Scene">
+<component name="MainScene" extends="Scene" focusable="true">
     <interface>
         <!-- URL da página que o servidor de tradução vai buscar e converter -->
         <field id="pageUrl" type="string" alwaysNotify="true" onChange="onPageUrlChange" />
+        <!-- Mensagem de status/erro exibida na tela -->
+        <field id="status" type="string" alwaysNotify="true" />
     </interface>
 
     <children>
         <Rectangle id="background" color="0x000000FF" width="1280" height="720" />
         <Group id="root" />
+        <!-- Indicador de carregamento -->
+        <Label
+            id="loadingLabel"
+            translation="[10, 10]"
+            width="1260"
+            height="40"
+            text="Carregando..."
+            color="0x00FF00FF"
+            visible="false"
+            horizAlign="left"
+            vertAlign="top"
+        />
+        <!-- Mensagem de status/erro -->
+        <Label
+            id="statusLabel"
+            translation="[10, 660]"
+            width="1260"
+            height="50"
+            text=""
+            color="0xFFFF00FF"
+            wrap="true"
+            horizAlign="left"
+            vertAlign="bottom"
+        />
     </children>
 
     <script type="text/brightscript" uri="MainScene.brs" />

@@ -3,6 +3,7 @@
     <interface>
         <field id="serverUrl" type="string" />
         <field id="content" type="assocarray" />
+        <field id="error" type="string" alwaysNotify="true" />
     </interface>
     <script type="text/brightscript" uri="TranslateTask.brs" />
 </component>
