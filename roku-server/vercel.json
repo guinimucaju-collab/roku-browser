@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/api/health",
+      "dest": "/api/health.js"
+    },
+    {
+      "src": "/api/translate",
+      "dest": "/api/translate.js"
+    }
+  ],
+  "functions": {
+    "api/translate.js": {
+      "maxDuration": 10
+    },
+    "api/health.js": {
+      "maxDuration": 5
+    }
+  }
+}

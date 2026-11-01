@@ -1,6 +1,6 @@
 ' Converte "#RRGGBBAA" (formato do nosso contrato JSON) para "0xRRGGBBAA"
 ' (formato aceito pelos campos "color" do SceneGraph)
-function ToRokuColor(hex as Dynamic) as String
+function ToRokuColor(hex)
     if hex = invalid or Len(hex) < 7
         return "0x000000FF"
     end if
@@ -8,17 +8,18 @@ function ToRokuColor(hex as Dynamic) as String
 end function
 
 ' Retorna um valor numérico com fallback padrão, evitando erros de tipo
-function GetNum(val as Dynamic, default as Float) as Float
-    if val = invalid then return default
-    if type(val) = "float" or type(val) = "integer" then return val
-    return default
+function GetNum(val, defaultVal)
+    if val = invalid then return defaultVal
+    t = type(val)
+    if t = "float" or t = "integer" then return val
+    return defaultVal
 end function
 
 ' Percorre a árvore JSON (já vem com coordenadas ABSOLUTAS calculadas pelo servidor)
 ' e cria os nós SceneGraph correspondentes, todos direto no mesmo Group "root".
 ' Como o traversal é pré-ordem (pai antes dos filhos), a ordem de z-index sai
 ' correta automaticamente: fundos são adicionados antes do conteúdo por cima.
-sub BuildAndAppendNode(nodeJson as Object, root as Object)
+sub BuildAndAppendNode(nodeJson, root)
     if nodeJson = invalid then return
 
     nodeType = nodeJson.type
@@ -160,7 +161,7 @@ sub BuildAndAppendNode(nodeJson as Object, root as Object)
 end sub
 
 ' Aplica um deslocamento vertical (scroll) em todos os nós do grupo root.
-sub ApplyScroll(root as Object, deltaY as Integer)
+sub ApplyScroll(root, deltaY)
     if root = invalid then return
 
     children = root.getChildren()
@@ -175,7 +176,7 @@ sub ApplyScroll(root as Object, deltaY as Integer)
 end sub
 
 ' Retorna a maior coordenada Y + altura entre todos os nós, para saber o tamanho total do conteúdo.
-function GetContentHeight(root as Object) as Float
+function GetContentHeight(root)
     maxY = 0
     if root = invalid then return 0
 
@@ -196,7 +197,7 @@ function GetContentHeight(root as Object) as Float
 end function
 
 ' Retorna a menor coordenada Y entre todos os nós (posição do topo do conteúdo).
-function GetContentTop(root as Object) as Float
+function GetContentTop(root)
     minY = 0
     found = false
     if root = invalid then return 0

@@ -1,0 +1,16 @@
+{
+  "name": "roku-browser-server",
+  "version": "2.0.0",
+  "description": "Servidor de tradução para o Roku Browser - converte páginas web em JSON SceneGraph",
+  "main": "api/translate.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "engines": {
+    "node": "18.x"
+  },
+  "dependencies": {
+    "cheerio": "1.0.0-rc.12"
+  }
+}
